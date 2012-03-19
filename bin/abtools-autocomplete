@@ -1,0 +1,134 @@
+_abtools() 
+{
+  local cur prev opts base
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+  if [ "$COMP_CWORD" -gt "1" ] ; then
+    pprev="${COMP_WORDS[COMP_CWORD-2]}"
+  fi
+
+  #
+  #  The basic options we'll complete.
+  #
+  opts="playlist logo id3 chown list remotelist diff remotediff cleanup send get import export peers"
+
+  #
+  #   Parse short-commands
+  #
+  case "${prev}" in
+    pl) fnc=playlist ;;
+    lg) fnc=logo ;;
+    cl) fnc=cleanup ;;
+    cw) fnc=chown ;;
+    ls) fnc=list ;;
+    rl) fnc=remotelist ;;
+    rls) fnc=remotelist ;;
+    df) fnc=diff ;;
+    rd) fnc=remotediff ;;
+    rdf) fnc=remotediff ;;
+    rg) fnc=get ;;
+    rs) fnc=send ;;
+    im) fnc=import ;;
+    ex) fnc='export' ;;
+    *)  fnc=${prev} ;;
+  esac
+
+  #
+  #  Complete the arguments to some of the basic commands.
+  #
+  case "${fnc}" in
+    playlist)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    logo)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    id3)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    chown)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    cleanup)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    send)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    get)
+      return 0
+    ;;
+    export)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    import)
+      _filedir
+      return 0
+    ;;
+    send)
+      local names=$(for x in `abtools ls`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    remotelist)
+      local names=$(for x in `abtools peers`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    diff)
+      local names=$(for x in `abtools peers`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    remotediff)
+      local names=$(for x in `abtools peers`; do echo ${x} ; done )
+      COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+      return 0
+    ;;
+    *)
+      if [ "$COMP_CWORD" -gt "1" ] ; then
+        #
+        #   Parse short-commands
+        #
+        case "${pprev}" in
+          rg) ffnc=get ;;
+          rs) ffnc=send ;;
+          *)  ffnc=${pprev} ;;
+        esac
+
+        case "${ffnc}" in
+          get)
+            local names=$(for x in `abtools peers`; do echo ${x} ; done )
+            COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+            return 0
+          ;;
+          send)
+            local names=$(for x in `abtools peers`; do echo ${x} ; done )
+            COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+            return 0
+          ;;
+          *)
+          ;;
+        esac
+      fi
+    ;;
+  esac
+  COMPREPLY=($(compgen -W "${opts}" -- ${cur}))  
+  return 0
+}
+complete -F _abtools $filenames abtools
