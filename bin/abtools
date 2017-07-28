@@ -1,0 +1,66 @@
+#!/usr/bin/python3
+
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + '/..'))
+
+import abook
+
+a = abook.AbookSystem()
+
+def list_abooks():
+	print('  ', end='')
+	print('\n  '.join(map(str, a.list_audiobooks())))
+
+def abook_logo():
+	print("Resizing logo for %s ............" % sys.argv[2], end='')
+	a.abook_resize_logo(sys.argv[2])
+	print(" DONE")
+
+def abook_playlist():
+	print("Generating playlist for %s ......" % sys.argv[2], end='')
+	a.abook_generate_playlist(sys.argv[2])
+	print(" DONE")
+
+def abook_tags():
+	for f in a.abook_set_mediatags(sys.argv[2], True):
+		print("\rGenerating tags for %s .......... %s" % (sys.argv[2], f), end='')
+	print("\rGenerating tags for %s .......... DONE      " % sys.argv[2])
+
+def abook_chown():
+	print("Setting owner for %s ............" % sys.argv[2], end='')
+	a.abook_chown(sys.argv[2])
+	print(" DONE")
+
+def abook_cleanup():
+	abook_logo()
+	abook_playlist()
+	abook_tags()
+	abook_chown()
+
+def print_help():
+	print("Commands:")
+	print("  list")
+	print("  logo ABOOK")
+	print("  playlist ABOOK")
+	print("  tags ABOOK")
+	print("  chown ABOOK")
+	print("  cleanup ABOOK")
+
+commands = {
+	"ls": list_abooks,
+	"list": list_abooks,
+	"logo": abook_logo,
+	"playlist": abook_playlist,
+	"tags": abook_tags,
+	"chown": abook_chown,
+	"cleanup": abook_cleanup,
+	"help": print_help,
+}
+
+
+if len(sys.argv) > 1:
+	commands[sys.argv[1]]()
+else:
+	print_help()
+
