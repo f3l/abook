@@ -1,57 +1,17 @@
 The ABOOK-System
 ----------------
 
-Installation:
-  - Create a Config-directory:
-    # mkdir /etc/abook
-    # cd /etc/abook/
-    # ln -s /path/to/audiobook/folder abdir
-  - Create a file with the remote-hosts (see below)
-    # vi /etc/abook/remotehosts
-  - Enable the followsymlinks-option in your apache-config
-  - This folder has to be placed in the http-root folder
-  - Make the sub-folders ext and templates/compiled writeable by the webserver:
-    # chmod 777 ./ext ./templates/compiled
-  - use this to auto-remove old export-tars as an hourly cronjob:
-    # cd /var/www/abook/exp ; ls | while read line ; do [ `stat -c %Y $line` -lt `echo "$(date +%s) - 21600" | bc` ] && rm $line ; done > /dev/null 2>&1
-  - copy scripts/abtools-autocomplete to /etc/bash_completion.d/
-  
 The File/Folder-Structure:
   audiobooks
-  |~authorname_authorlastname_name_of_the_abook.lang
-  |  |-001.mp3
-  |  |-002.mp3
-  |  |-.....
-  |  |-logo.png
-  |  `-playlist.m3u
-  |~.categories
-    |-categorie_one
-    |-categorie_two
-    `-.....
-
-The remotehosts file:
-  - This file is used to configure the remote-hosts for syncing
-  - Add a line for each remote-host looking like this (user@host:port):
-    root@host1.tld:22
-    tux@host2.tld:22
-    .....
+  |~authorname_authorlastname.name_of_the_abook.lang
+    |-001.mp3
+    |-002.mp3
+    |-.....
+    |-logo.png
+    `-playlist.m3u
 
   - lang is the language (ISO 3166)
   - the playlist.m3u contains a list of all mp3-files
     e.g. 001.mp3\n002.mp3 ...
-  - the logo.png is the icon and has to be 150x150px interlaced
-  - the categorie-files contain a list of the folder-names of the
-    contained audiobooks
+  - the logo.png is the icon and has to be 350x350px interlaced
   - everything has to be written lowercase without spaces
-
-  - Copy the scripts/abtools.sh script to /usr/local/bin/abtools
-    and make it executable
-  - Use scripts/ripabook.sh to rip your audiobooks
-
-Commandline client Installation:
-  - Copy scripts/abclient.sh to /usr/bin/abclient
-  - Make it executable
-  - Edit it to fit your abtools-url
-  - Copy scripts/abclient-autocomplete to /etc/bash_completion.d (for tab-autocomplete)
-  - Call abclient without options for a command-list
-  - Remember to exit MPlayer with Ctrl+C

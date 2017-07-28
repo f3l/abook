@@ -1,3 +1,0 @@
-export abook_dir="/var/ftp/pub/audiobooks"
-export abook_user="ftp"
-export abook_group="nogroup"
