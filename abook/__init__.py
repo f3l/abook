@@ -31,6 +31,7 @@ class AbookSystem(object):
 		is_media_file = lambda f: f.endswith('.mp3') or f.endswith('.mkv') or f.endswith('.ogg')
 		with open(playlist_m3u, 'w') as playlist:
 			playlist.write("\n".join(sorted(filter(is_media_file, os.listdir(self._abdir(audiobook))))))
+			playlist.write("\n")
 
 	def abook_set_mediatags(self, audiobook, do_yield=False):
 		playlist_m3u = self._abfile(audiobook, 'playlist.m3u')
