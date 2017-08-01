@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{super()}} :: {% block action %}List{% endblock %}{% endblock %}
+{% block head %}
+	{{super()}}
+	<script src="{{ url_for('static', filename='player.js') }}" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+	<div class="abitem">
+		<div class="image">
+			<img src="{{ url_for('audiobooks', audiobook=abook, file='logo.png') }}" />
+		</div>
+		<div class="title">{{ abook.title }}</div>
+		<div class="al">
+			<span class="author">{{ abook.author }}</span>
+			-
+			<span class="language">{{ abook.language }}</span>
+		</div>
+		<div class="playlistcontainer">
+			<input type="button" value="&lt;" id="prev_track" />
+			<select id="playlist">
+			{%- for track in playlist %}
+				<option value="{{ loop.index0 }}">{{ track }}</option>
+			{%- endfor %}
+			</select>
+			<input type="button" value="&gt;" id="next_track" />
+		</div>
+	</div>
+	<div class="playercontainer">
+		<audio
+			data-baseurl="{{ url_for('audiobooks', audiobook=abook, file='') }}"
+			data-artist="{{ abook.author }}"
+			data-album="{{ abook.title }}"
+			data-dirname="{{ abook }}"
+			src="{{ url_for('audiobooks', audiobook=abook, file=playlist|first) }}"
+			id="player"
+			controls="controls"></audio>
+	</div>
+{% endblock %}

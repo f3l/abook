@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{super()}} :: {% block action %}List{% endblock %}{% endblock %}
+{% block content %}
+	<div class="ablist">
+	{%- for abook in abooks %}
+		<div class="abitem">
+			<div class="image">
+				<a href="{{ url_for('abook', audiobook=abook) }}"><img src="{{ url_for('audiobooks', audiobook=abook, file='logo.png') }}" /></a>
+			</div>
+			<div class="title">
+				<a href="{{ url_for('abook', audiobook=abook) }}">{{ abook.title }}</a><br />
+			</div>
+			<div class="al">
+				<span class="author">{{ abook.author }}</span>
+				-
+				<span class="language">{{ abook.language }}</span>
+			</div>
+		</div>
+	{%- endfor %}
+	</div>
+{% endblock %}

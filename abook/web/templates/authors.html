@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{super()}} :: {% block action %}Authors{% endblock %}{% endblock %}
+{% block content %}
+	{%- for author, abooks in authors.items() %}
+		<a href="{{ url_for('list', a=author) }}">{{ author }}</a> ({{ abooks }})<br />
+	{%- endfor %}
+{% endblock %}

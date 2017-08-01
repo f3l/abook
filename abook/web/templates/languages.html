@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{super()}} :: {% block action %}Languages{% endblock %}{% endblock %}
+{% block content %}
+	{%- for language, abooks in languages.items() %}
+		<a href="{{ url_for('list', l=language) }}">{{ language }}</a> ({{ abooks }})<br />
+	{%- endfor %}
+{% endblock %}

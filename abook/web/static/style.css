@@ -1,0 +1,112 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+nav {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 24px;
+	text-align: center;
+	background-color: #EDEDED;
+}
+
+nav .left {
+	float: left;
+	padding-left: 24px;
+}
+
+nav .right {
+	float: right;
+	padding-right: 24px;
+}
+
+nav form {
+	display: inline;
+}
+
+nav a {
+	color: blue;
+}
+
+.content {
+	position: absolute;
+	top: 24px;
+	margin-top: 24px;
+	padding: 0 24px;
+	padding-bottom: 24px;
+}
+
+input[type="text"], input[type="submit"], input[type="button"], select {
+	border: 1px solid #dadada;
+}
+
+.formtag {
+	cursor: pointer;
+}
+
+.formtag:hover {
+	text-decoration: line-through;
+}
+
+.ablist .abitem {
+	float: left;
+	border: 1px solid #EDEDED;
+}
+
+.abitem {
+	height: 150px;
+	width: 430px;
+	margin: 5px 0;
+	margin-right: 5px;
+	position: relative;
+	border: 1px solid #EDEDED;
+	border-bottom: 0;
+}
+
+.abitem .image {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.abitem .title {
+	position: absolute;
+	top: 24px;
+	left: 150px;
+	margin-left: 5px;
+}
+
+.abitem .al {
+	position: absolute;
+	bottom: 34px;
+	left: 150px;
+	margin-left: 5px;
+}
+
+.abitem .author {
+	font-style: italic;
+}
+
+.abitem .image img {
+	width: 150px;
+	height: 150px;
+}
+
+.abitem .playlistcontainer {
+	position: absolute;
+	bottom: 5px;
+	left: 150px;
+	width: 280px;
+	margin-left: 5px;
+	text-align: center;
+}
+
+#player {
+	width: 430px;
+	border: 1px solid #EDEDED;
+	margin-top: -5px;
+	border-top: 0;
+}

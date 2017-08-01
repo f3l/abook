@@ -23,25 +23,25 @@ class AbookSystem(object):
 		return map(Audiobook, sorted(next(os.walk(self.dir))[1]))
 
 	def abook_resize_logo(self, audiobook):
-		logo_png = self._abfile(audiobook, 'logo.png')
+		logo_png = self.abfile(audiobook, 'logo.png')
 		subprocess.check_call(['convert', '-resize', '350x350!', '-interlace', 'PLANE', logo_png, logo_png])
 
 	def abook_generate_playlist(self, audiobook):
-		playlist_m3u = self._abfile(audiobook, 'playlist.m3u')
+		playlist_m3u = self.abfile(audiobook, 'playlist.m3u')
 		is_media_file = lambda f: f.endswith('.mp3') or f.endswith('.mkv') or f.endswith('.ogg')
 		with open(playlist_m3u, 'w') as playlist:
-			playlist.write("\n".join(sorted(filter(is_media_file, os.listdir(self._abdir(audiobook))))))
+			playlist.write("\n".join(sorted(filter(is_media_file, os.listdir(self.abdir(audiobook))))))
 			playlist.write("\n")
 
 	def abook_set_mediatags(self, audiobook, do_yield=False):
-		playlist_m3u = self._abfile(audiobook, 'playlist.m3u')
+		playlist_m3u = self.abfile(audiobook, 'playlist.m3u')
 		abook = audiobook if audiobook is Audiobook else Audiobook(audiobook)
 		with open(playlist_m3u) as playlist:
 			track = 1
 			for mediafile in map(lambda s: s.strip(), playlist.readlines()):
 				if do_yield:
 					yield mediafile
-				filepath = self._abfile(audiobook, mediafile)
+				filepath = self.abfile(audiobook, mediafile)
 				if mediafile.endswith('.mp3'):
 					subprocess.check_call(['id3v2', '-D', filepath], stdout=subprocess.DEVNULL)
 					subprocess.check_call([
@@ -65,17 +65,17 @@ class AbookSystem(object):
 				track += 1
 
 	def abook_chown(self, audiobook):
-		subprocess.check_call(['chown', '-R', '%s:%s' % (self.user, self.group), self._abdir(audiobook)])
+		subprocess.check_call(['chown', '-R', '%s:%s' % (self.user, self.group), self.abdir(audiobook)])
 
-	def _abdir(self, audiobook):
+	def abdir(self, audiobook):
 		if audiobook is Audiobook:
 			dirname = audiobook.dirname
 		else:
 			dirname = audiobook
 		return os.path.join(self.dir, dirname)
 
-	def _abfile(self, audiobook, filename):
-		return os.path.join(self._abdir(audiobook), filename)
+	def abfile(self, audiobook, filename):
+		return os.path.join(self.abdir(audiobook), filename)
 
 
 class Audiobook(object):
@@ -89,12 +89,12 @@ class Audiobook(object):
 		ds = self.dirname.split('.')
 		if len(ds) == 3:
 			# format: author.title.language
-			author, title, self._lang = ds
+			author, title, self._language = ds
 			self._author = author.replace('_', ' ')
 			self._title = title.replace('_', ' ')
 		elif len(ds) == 2:
 			# format: author_name_title.language
-			author_title, self._lang = ds
+			author_title, self._language = ds
 			self._author = ' '.join(author_title.split('_')[:2])
 			self._title = ' '.join(author_title.split('_')[2:])
 		else:

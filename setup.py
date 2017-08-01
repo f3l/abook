@@ -4,13 +4,13 @@ from distutils.core import setup
 
 setup(
     name='abook',
-    version='5.0.0',
+    version='5.1.0',
     license='GPLv3',
     description='Tool to maintain audiobook database',
     author='Dominik Heidler',
     author_email='dominik@heidler.eu',
-    requires=[],
-    packages=['abook'],
+    requires=['flask'],
+    packages=['abook', 'abook.web'],
     scripts=['bin/abtools'],
     data_files=[
         ('/etc', ['abook.cfg']),

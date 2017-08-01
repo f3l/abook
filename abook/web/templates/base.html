@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+		<meta charset="utf-8">
+		<title>{% block title %}Audiobooks{% endblock %}</title>
+		<link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/png">
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css" />
+		<script src="{{ url_for('static', filename='search.js') }}" type="text/javascript"></script>
+		{% endblock %}
+	</head>
+	<body>
+		<nav>
+			<div class="left">
+				<a href="{{ url_for('list') }}">Audiobooks</a>&nbsp;&nbsp;
+				<a href="{{ url_for('authors') }}">Authors</a>&nbsp;&nbsp;
+				<a href="{{ url_for('languages') }}">Languages</a>
+			</div>
+			<div class="right">
+				<form method="get" action="{{ url_for('list') }}" id="searchform">
+					{% if request.args.a -%}
+						<a class="formtag" onclick="resetSearchValue('a');">Author: {{ request.args.a }}</a>
+						<input type="hidden" name="a" id="a" value="{{ request.args.a }}" />
+						{% if request.args.l %} - {% endif %}
+					{% endif -%}
+					{% if request.args.l %}
+						<a class="formtag" onclick="resetSearchValue('l');">Language: {{ request.args.l }}</a>
+						<input type="hidden" name="l" id="l" value="{{ request.args.l }}" />
+					{% endif %}
+					<input type="text" name="s" id="s" value="{{ request.args.get('s', '') }}" />
+					<input type="submit" value="&#9166;" style="display: none;" />
+					{% if request.args.s %}
+						<input type="button" name="resetsearch" id="resetsearch" value="&#9747;" onclick="resetSearchValue('s');" />
+					{% endif %}
+				</form>
+			</div>
+		</nav>
+		<div class="content">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</body>
+</html>
