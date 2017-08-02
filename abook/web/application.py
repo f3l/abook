@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + '/' + '../..'))
 
 from abook import AbookSystem, Audiobook
 from flask import Flask, render_template, request, config
+from collections import OrderedDict
 
 
 a = AbookSystem()
@@ -29,7 +30,7 @@ def list():
 
 @app.route('/authors')
 def authors():
-	authors = {}
+	authors = OrderedDict()
 	for abook in a.list_audiobooks():
 		authors[abook.author] = authors.get(abook.author, 0) + 1
 	return render_template("authors.html", authors=authors)
