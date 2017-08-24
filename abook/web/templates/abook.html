@@ -11,9 +11,9 @@
 		</div>
 		<div class="title">{{ abook.title }}</div>
 		<div class="al">
-			<span class="author">{{ abook.author }}</span>
+			<span class="author"><a href="{{ url_for('list', a=abook.author) }}">{{ abook.author }}</a></span>
 			-
-			<span class="language">{{ abook.language }}</span>
+			<span class="language"><a href="{{ url_for('list', l=abook.language) }}">{{ abook.language }}</a></span>
 		</div>
 		<div class="playlistcontainer">
 			<input type="button" value="&lt;" id="prev_track" />
