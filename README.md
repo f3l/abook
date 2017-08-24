@@ -22,9 +22,10 @@ The File/Folder-Structure:
 ```
 server.modules += ( "mod_scgi" )
 scgi.protocol = "uwsgi"
-scgi.server = ( 
+scgi.server = (
   "/abook" => (( "host" => "127.0.0.1", "port" => 3031, "check-local" => "disable", "docroot" => "/abook/" )), 
-)                                                                                                                                                              
+)
+
 server.modules += ( "mod_redirect" )
 url.redirect = ( "^/abook$" => "/abook/" )
 ```
