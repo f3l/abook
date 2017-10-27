@@ -18,6 +18,7 @@ class AbookSystem(object):
 		self.dir = self.config['abook']['dir']
 		self.user = self.config['abook']['user']
 		self.group = self.config['abook']['group']
+		assert os.path.isdir(self.dir), "Abook directory '%s' does not exist" % self.dir
 
 	def list_audiobooks(self):
 		return map(Audiobook, sorted(next(os.walk(self.dir))[1]))
