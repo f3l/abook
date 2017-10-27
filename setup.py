@@ -13,7 +13,7 @@ setup(
     packages=['abook', 'abook.web'],
     scripts=['bin/abtools'],
     data_files=[
-        ('/etc', ['abook.cfg']),
+        #('/etc', ['abook.cfg']),
         ('/usr/share/bash-completion/completions', ['completion/abtools']),
     ],
 )
