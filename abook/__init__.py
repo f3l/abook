@@ -25,7 +25,7 @@ class AbookSystem(object):
 
 	def abook_resize_logo(self, audiobook):
 		logo_png = self.abfile(audiobook, 'logo.png')
-		subprocess.check_call(['convert', '-resize', '350x350!', '-interlace', 'PLANE', logo_png, logo_png])
+		subprocess.check_call(['convert', '-resize', '350x350!', '-interlace', 'PLANE', logo_png, 'png24:%s' % logo_png])
 
 	def abook_generate_playlist(self, audiobook):
 		playlist_m3u = self.abfile(audiobook, 'playlist.m3u')
@@ -54,13 +54,22 @@ class AbookSystem(object):
 						filepath],
 						stdout=subprocess.DEVNULL)
 				elif mediafile.endswith('.ogg'):
-					subprocess.check_call([
-						'vorbiscomment', '-w',
-						'-t', 'ARTIST=%s' % abook.author,
-						'-t', 'ALBUM=%s' % abook.title,
-						'-t', 'TITLE=%s' % mediafile,
-						'-t', 'TRACKNUMBER=%i' % track,
-						filepath])
+					try:
+						subprocess.check_call([
+							'vorbiscomment', '-w',
+							'-t', 'ARTIST=%s' % abook.author,
+							'-t', 'ALBUM=%s' % abook.title,
+							'-t', 'TITLE=%s' % mediafile,
+							'-t', 'TRACKNUMBER=%i' % track,
+							filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+					except:
+						subprocess.check_call([
+							'opustags', '-iD',
+							'-s', 'ARTIST=%s' % abook.author,
+							'-s', 'ALBUM=%s' % abook.title,
+							'-s', 'TITLE=%s' % mediafile,
+							'-s', 'TRACKNUMBER=%i' % track,
+							filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 				#elif mediafile.endswith('.mkv'):
 				#TODO: implement mkv tag writing
 				track += 1
