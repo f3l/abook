@@ -7,7 +7,7 @@ import subprocess
 input_file = sys.argv[1]
 output_folder = sys.argv[2]
 output_ext = 'ogg'
-silence_len = 3
+silence_len = 2
 min_chapter_len = 300
 move_split_into_silence = True
 
