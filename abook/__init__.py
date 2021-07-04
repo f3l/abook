@@ -63,15 +63,18 @@ class AbookSystem(object):
 							'-t', 'TRACKNUMBER=%i' % track,
 							filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 					except:
-						fileperm = subprocess.check_output(['stat', '-c', '%a', filepath]).strip()
-						subprocess.check_call([
-							'opustags', '-iD',
-							'-s', 'ARTIST=%s' % abook.author,
-							'-s', 'ALBUM=%s' % abook.title,
-							'-s', 'TITLE=%s' % mediafile,
-							'-s', 'TRACKNUMBER=%i' % track,
-							filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-						subprocess.check_call(['chmod', fileperm, filepath])
+						try:
+							fileperm = subprocess.check_output(['stat', '-c', '%a', filepath]).strip()
+							subprocess.check_call([
+								'opustags', '-iD',
+								'-s', 'ARTIST=%s' % abook.author,
+								'-s', 'ALBUM=%s' % abook.title,
+								'-s', 'TITLE=%s' % mediafile,
+								'-s', 'TRACKNUMBER=%i' % track,
+								filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+							subprocess.check_call(['chmod', fileperm, filepath])
+						except:
+							pass
 				#elif mediafile.endswith('.mkv'):
 				#TODO: implement mkv tag writing
 				track += 1
