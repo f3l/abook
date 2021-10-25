@@ -3,12 +3,10 @@ Description=Abook Web UI
 After=syslog.target
 
 [Service]
-ExecStart=/usr/bin/uwsgi --plugin python -w abook.web.application:app --master --processes 4 --enable-threads --uid nobody --gid nobody --catch-exceptions -s 127.0.0.1:3031
+ExecStart=/usr/bin/gunicorn3 -b 127.0.0.1:3131 abook.web.application:app -k gevent -u nobody -g nobody --log-syslog
 Restart=always
-KillSignal=SIGQUIT
-Type=notify
+Type=simple
 StandardError=syslog
-NotifyAccess=all
 
 [Install]
 WantedBy=multi-user.target
