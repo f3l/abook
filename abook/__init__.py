@@ -21,7 +21,8 @@ class AbookSystem(object):
 		assert os.path.isdir(self.dir), "Abook directory '%s' does not exist" % self.dir
 
 	def list_audiobooks(self):
-		return map(Audiobook, sorted(next(os.walk(self.dir))[1]))
+		abooks = (a for a in next(os.walk(self.dir))[1] if a != '.stfolder')
+		return map(Audiobook, sorted(abooks))
 
 	def abook_resize_logo(self, audiobook):
 		logo_png = self.abfile(audiobook, 'logo.png')
