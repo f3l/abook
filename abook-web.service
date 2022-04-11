@@ -3,7 +3,7 @@ Description=Abook Web UI
 After=syslog.target
 
 [Service]
-ExecStart=/usr/bin/gunicorn3 -b 127.0.0.1:3131 abook.web.application:app -k gevent -u nobody -g nobody --log-syslog
+ExecStart=/usr/bin/gunicorn3 -b 127.0.0.1:3131 abook.web.application:app -k gevent -u nobody -g nogroup --log-syslog
 Restart=always
 Type=simple
 StandardError=syslog
